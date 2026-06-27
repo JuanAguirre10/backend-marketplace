@@ -9,7 +9,7 @@ const app = express();
 
 // Middlewares
 app.use(cors({
-  origin: 'https://frontend-marketplace-ashen.vercel.app/',
+  origin: 'https://frontend-marketplace-ashen.vercel.app',
   credentials: true
 }));
 app.use(express.json());
