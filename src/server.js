@@ -1,7 +1,11 @@
+// PRIMERA LÍNEA siempre
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 const app = require('./app');
 const sequelize = require('./config/database');
 require('./models/index');
-require('dotenv').config();
 
 const PORT = process.env.PORT || 3001;
 
@@ -14,7 +18,7 @@ const startServer = async () => {
     console.log('Modelos sincronizados');
 
     app.listen(PORT, () => {
-      console.log(`Servidor corriendo en http://localhost:${PORT}`);
+      console.log(`Servidor corriendo en puerto ${PORT}`);
     });
   } catch (error) {
     console.error('Error al iniciar el servidor:', error);
