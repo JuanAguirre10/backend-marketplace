@@ -8,7 +8,10 @@ const { verifyToken } = require('./middlewares/auth.middleware');
 const app = express();
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin: 'https://frontend-marketplace-ashen.vercel.app/',
+  credentials: true
+}));
 app.use(express.json());
 
 // Rutas públicas
