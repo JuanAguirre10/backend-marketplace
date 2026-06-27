@@ -1,8 +1,14 @@
 const Product = require('../models/Product');
+const { Category } = require('../models/index');
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.findAll();
+    const products = await Product.findAll({
+      include: [{
+        model: Category,
+        attributes: ['id', 'nombre']
+      }]
+    });
     res.json({
       success: true,
       message: 'Productos obtenidos correctamente',
@@ -20,7 +26,12 @@ exports.getAllProducts = async (req, res) => {
 
 exports.getProductById = async (req, res) => {
   try {
-    const product = await Product.findByPk(req.params.id);
+    const product = await Product.findByPk(req.params.id, {
+      include: [{
+        model: Category,
+        attributes: ['id', 'nombre']
+      }]
+    });
 
     if (!product) {
       return res.status(404).json({
@@ -47,7 +58,7 @@ exports.getProductById = async (req, res) => {
 
 exports.createProduct = async (req, res) => {
   try {
-    const { nombre, precio, descripcion } = req.body;
+    const { nombre, precio, descripcion, imageUrl, CategoryId } = req.body;
 
     if (!nombre || !precio) {
       return res.status(400).json({
@@ -65,7 +76,7 @@ exports.createProduct = async (req, res) => {
       });
     }
 
-    const product = await Product.create({ nombre, precio, descripcion });
+    const product = await Product.create({ nombre, precio, descripcion, imageUrl, CategoryId });
 
     res.status(201).json({
       success: true,
@@ -84,7 +95,7 @@ exports.createProduct = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
   try {
-    const { nombre, precio, descripcion } = req.body;
+    const { nombre, precio, descripcion, imageUrl, CategoryId } = req.body;
     const product = await Product.findByPk(req.params.id);
 
     if (!product) {
@@ -103,7 +114,7 @@ exports.updateProduct = async (req, res) => {
       });
     }
 
-    await product.update({ nombre, precio, descripcion });
+    await product.update({ nombre, precio, descripcion, imageUrl, CategoryId });
 
     res.json({
       success: true,
